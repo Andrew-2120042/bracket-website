@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vael — your brain already knows.</title>
+<title>Bracket — your brain already knows.</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -1067,7 +1067,7 @@ footer {
 <!-- HERO -->
 <section id="hero">
   <nav id="hero-nav">
-    <span class="nav-brand">Vael</span>
+    <span class="nav-brand">Bracket</span>
   </nav>
 
   <!-- RESTORE ON LAUNCH: QR panel
@@ -1075,7 +1075,7 @@ footer {
     <div class="qr-close-btn" id="qr-close-btn"></div>
     <div class="qr-card">
       <div id="qr-code-el"></div>
-      <span class="qr-card-label">Scan to download Vael</span>
+      <span class="qr-card-label">Scan to download Bracket</span>
     </div>
   </div>
   <div class="qr-reopen-btn qr-hidden" id="qr-reopen-btn">Download</div>
@@ -1271,19 +1271,19 @@ footer {
   <div class="pos-dark-layer">
     <div class="pos-dark-inner">
       <div class="pos-dark-text">
-        <span class="download-label dl-el">Vael</span>
+        <span class="download-label dl-el">Bracket</span>
         <span class="download-h1 dl-el">your brain is ready.</span>
         <span class="download-h2 dl-el">bring it something real.</span>
         <button class="app-store-btn dl-el" onclick="document.getElementById('hero-waitlist-email').focus(); window.scrollTo({top:0,behavior:'smooth'})">Join Waitlist</button>
         <!-- RESTORE ON LAUNCH:
-        <a href="https://apps.apple.com/app/vael" target="_blank" class="app-store-btn dl-el">Download on the App Store</a>
+        <a href="https://apps.apple.com/app/bracket" target="_blank" class="app-store-btn dl-el">Download on the App Store</a>
         <span class="download-fine dl-el">free to start. iOS only.</span>
         -->
       </div>
       <canvas id="globe-canvas"></canvas>
     </div>
     <footer>
-      <span class="footer-left">© 2026 Vael</span>
+      <span class="footer-left">© 2026 Bracket</span>
       <div class="footer-col">
         <span class="footer-col-title">App</span>
         <ul>
@@ -1333,7 +1333,7 @@ footer {
 
   // Generate QR immediately on load
   new QRCode(document.getElementById('qr-code-el'), {
-    text: 'https://apps.apple.com/app/vael',
+    text: 'https://apps.apple.com/app/bracket',
     width: 140,
     height: 140,
     colorDark: '#ffffff',
@@ -1482,7 +1482,7 @@ window.addEventListener('load', () => {
     }
 
     // delay until after the pill fades in (1.15s delay + 0.9s duration)
-    setTimeout(fetchAndShowCount, 2100);
+    setTimeout(fetchAndShowCount, 1600);
 
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
