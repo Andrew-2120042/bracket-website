@@ -78,6 +78,28 @@ section {
   opacity: 1;
 }
 
+.nav-waitlist-btn {
+  position: fixed;
+  top: 32px;
+  right: 48px;
+  z-index: 200;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 32px;
+  padding: 9px 20px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: background 0.2s ease, opacity 0.4s ease;
+}
+.nav-waitlist-btn.visible { opacity: 1; pointer-events: auto; }
+.nav-waitlist-btn:hover { background: rgba(255,255,255,0.85); }
+
 #brain-canvas {
   position: absolute;
   top: 0; left: 0;
@@ -857,12 +879,82 @@ footer {
 
   /* ── HIDE QR WIDGET ── */
   .qr-panel-wrap, .qr-reopen-btn { display: none !important; }
+  .hero-waitlist { max-width: 340px; }
 
   /* ── REDUCE GAP: problem → built ── */
   #problem { padding-bottom: 40px; }
   #built { margin-top: 0; }
   .built-left { padding-top: 40px; }
 }
+/* ── HIDE QR GLOBALLY ── */
+.qr-panel-wrap, .qr-reopen-btn { display: none !important; }
+
+/* ── HERO WAITLIST FORM ── */
+.hero-waitlist {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  max-width: 420px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 40px;
+  padding: 6px 6px 6px 22px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  opacity: 0;
+}
+.hero-waitlist input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  min-width: 0;
+}
+.hero-waitlist input::placeholder { color: rgba(255,255,255,0.35); }
+.hero-waitlist button {
+  flex-shrink: 0;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 32px;
+  padding: 11px 22px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.hero-waitlist button:hover { background: rgba(255,255,255,0.85); }
+.hero-waitlist-thanks {
+  margin-top: 32px;
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  display: block;
+}
+.waitlist-count-line {
+  display: block;
+  margin-top: 16px;
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.01em;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.waitlist-count-line strong {
+  color: #fff;
+  font-weight: 500;
+}
+
 /* ── QR WIDGET ── */
 
 /* Panel wrapper — fixed bottom-right, visible by default */
@@ -978,7 +1070,7 @@ footer {
     <span class="nav-brand">Vael</span>
   </nav>
 
-  <!-- QR panel: × above, card below -->
+  <!-- RESTORE ON LAUNCH: QR panel
   <div class="qr-panel-wrap" id="qr-panel-wrap">
     <div class="qr-close-btn" id="qr-close-btn"></div>
     <div class="qr-card">
@@ -986,15 +1078,20 @@ footer {
       <span class="qr-card-label">Scan to download Vael</span>
     </div>
   </div>
-
-  <!-- Download button shown when QR is closed -->
   <div class="qr-reopen-btn qr-hidden" id="qr-reopen-btn">Download</div>
+  -->
 
   <canvas id="brain-canvas"></canvas>
 
   <div class="hero-text">
     <span class="hero-line-1">your brain already knows.</span>
     <span class="hero-line-2">this helps you hear it.</span>
+    <form class="hero-waitlist" id="hero-waitlist-form" novalidate>
+      <input type="email" placeholder="your email address" id="hero-waitlist-email" autocomplete="email" />
+      <button type="submit">Join Waitlist</button>
+    </form>
+    <span class="waitlist-count-line" id="waitlist-count-line">join <strong id="waitlist-count-num">—</strong> others on the waitlist.</span>
+    <span class="hero-waitlist-thanks" id="hero-waitlist-thanks">you're on the list. we'll notify you once the app is released.</span>
   </div>
 
   <div class="scroll-cue" id="scroll-cue">
@@ -1177,8 +1274,11 @@ footer {
         <span class="download-label dl-el">Vael</span>
         <span class="download-h1 dl-el">your brain is ready.</span>
         <span class="download-h2 dl-el">bring it something real.</span>
+        <button class="app-store-btn dl-el" onclick="document.getElementById('hero-waitlist-email').focus(); window.scrollTo({top:0,behavior:'smooth'})">Join Waitlist</button>
+        <!-- RESTORE ON LAUNCH:
         <a href="https://apps.apple.com/app/vael" target="_blank" class="app-store-btn dl-el">Download on the App Store</a>
         <span class="download-fine dl-el">free to start. iOS only.</span>
+        -->
       </div>
       <canvas id="globe-canvas"></canvas>
     </div>
@@ -1187,7 +1287,7 @@ footer {
       <div class="footer-col">
         <span class="footer-col-title">App</span>
         <ul>
-          <li><a href="#download">Download</a></li>
+          <li><a href="#hero" onclick="setTimeout(()=>document.getElementById('hero-waitlist-email').focus(),400)">Waitlist</a></li>
           <li><a href="#built">How it works</a></li>
         </ul>
       </div>
@@ -1228,6 +1328,8 @@ footer {
   const panel     = document.getElementById('qr-panel-wrap');
   const closeBtn  = document.getElementById('qr-close-btn');
   const reopenBtn = document.getElementById('qr-reopen-btn');
+
+  if (!panel) return; // RESTORE ON LAUNCH: remove this guard when QR HTML is uncommented
 
   // Generate QR immediately on load
   new QRCode(document.getElementById('qr-code-el'), {
@@ -1316,12 +1418,103 @@ footer {
 })();
 
 // ═══════════════════════════════
+// NAV WAITLIST BUTTON VISIBILITY
+// ═══════════════════════════════
+new IntersectionObserver(([entry]) => {
+  document.getElementById('nav-waitlist-btn').classList.toggle('visible', !entry.isIntersecting);
+}, { threshold: 0 }).observe(document.getElementById('hero'));
+
+// ═══════════════════════════════
 // HERO FADE IN
 // ═══════════════════════════════
 window.addEventListener('load', () => {
   gsap.to('.hero-line-1', { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.4 });
   gsap.to('.hero-line-2', { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.75 });
+  gsap.to('.hero-waitlist', { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', delay: 1.15 });
   gsap.to('#scroll-cue',  { opacity: 1, duration: 1.0, ease: 'power2.out', delay: 1.8 });
+
+  (function() {
+    const SUPABASE_URL = 'https://hnawmnjiadiwoojsohby.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhuYXdtbmppYWRpd29vanNvaGJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTQyNzEsImV4cCI6MjA5NjMzMDI3MX0.jmPQtVeYij-qvOqYPicN8FmWbl6S9KgyUw5Qra6v-Y8';
+    const BASE_COUNT = 158;
+
+    const form      = document.getElementById('hero-waitlist-form');
+    const input     = document.getElementById('hero-waitlist-email');
+    const btn       = form.querySelector('button');
+    const thanks    = document.getElementById('hero-waitlist-thanks');
+    const countLine = document.getElementById('waitlist-count-line');
+    const countNum  = document.getElementById('waitlist-count-num');
+
+    const HEADERS = {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      'Content-Type': 'application/json'
+    };
+
+    function animateCount(target) {
+      const duration = 1800;
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(eased * target);
+        countNum.textContent = val.toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    async function fetchAndShowCount() {
+      try {
+        const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/waitlist_count', {
+          method: 'POST',
+          headers: HEADERS,
+          body: JSON.stringify({})
+        });
+        const n = res.ok ? (await res.json()) : 0;
+        const total = BASE_COUNT + (n || 0);
+        countLine.style.opacity = '1';
+        animateCount(total);
+      } catch {
+        countLine.style.opacity = '1';
+        animateCount(BASE_COUNT);
+      }
+    }
+
+    fetchAndShowCount();
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = input.value.trim();
+      if (!email || !email.includes('@')) { input.focus(); return; }
+
+      btn.textContent = '...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(SUPABASE_URL + '/rest/v1/waitlist', {
+          method: 'POST',
+          headers: { ...HEADERS, 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ email })
+        });
+
+        if (res.ok || res.status === 409) {
+          form.style.display = 'none';
+          const msg = res.ok ? "you're on the list. we'll notify you once the app is released."
+                             : "you're already on the list.";
+          thanks.textContent = msg;
+          gsap.to(thanks, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+          if (res.ok) fetchAndShowCount();
+        } else {
+          btn.textContent = 'try again';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'try again';
+        btn.disabled = false;
+      }
+    });
+  })();
 });
 
 // ═══════════════════════════════
@@ -1522,7 +1715,7 @@ document.querySelectorAll('.pos-dark-text .dl-el').forEach((el, i) => {
   let op = 1;
   if (el.classList.contains('download-label')) op = 0.3;
   if (el.classList.contains('download-h2'))    op = 0.6;
-  if (el.classList.contains('download-fine'))  op = 0.25;
+  if (el.classList.contains('download-fine'))  op = 0;
   gsap.fromTo(el,
     { opacity: 0, y: 30 },
     { opacity: op, y: 0, duration: 0.8, ease: 'power2.out', delay: i * 0.15,
@@ -1646,5 +1839,8 @@ document.querySelectorAll('.pos-dark-text .dl-el').forEach((el, i) => {
 })();
 
 </script>
+
+<!-- Fixed nav waitlist button -->
+<button class="nav-waitlist-btn" id="nav-waitlist-btn" onclick="window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>document.getElementById('hero-waitlist-email').focus(),500)">Join Waitlist</button>
 </body>
 </html>
