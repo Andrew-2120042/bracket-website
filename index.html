@@ -942,7 +942,7 @@ footer {
 }
 .waitlist-count-line {
   display: block;
-  margin-top: 16px;
+  margin-top: 22px;
   font-size: 15px;
   font-weight: 300;
   color: rgba(255,255,255,0.35);
@@ -1481,7 +1481,8 @@ window.addEventListener('load', () => {
       }
     }
 
-    fetchAndShowCount();
+    // delay until after the pill fades in (1.15s delay + 0.9s duration)
+    setTimeout(fetchAndShowCount, 2100);
 
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
